@@ -1,0 +1,21 @@
+var numNews = 6;
+
+var path = "files/theme/"
+
+var jqxhr = $.getJSON( path+"news.json")
+  .done(function(data) {
+	var items = [];
+	$.each( data, function( key, val ) {
+		if(key < numNews){
+			items.push( "<div class='my-news'><div class='img-container'><img src="+path+val.image+"></div><div class='paragraph'><div class='title'>"+val.title+"</div><a href='"+val.link+"'>"+val.text+"</a></div></div>");
+		}
+	});
+	 
+	$( "<div/>", {
+		html: items.join( "" )
+	}).appendTo( ".my-news-container" );
+  })
+  .fail(function() {
+    console.log( "error" );
+  })
+

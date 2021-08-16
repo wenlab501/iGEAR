@@ -1,0 +1,37 @@
+//http://codepen.io/anon/pen/VvNjQa
+var path = "files/theme/grid/";
+var path_imgs = path+"";
+
+function parseBlock(data, items){
+	$.each( data, function( key, val ) {
+		if(val.blocks){
+			items.push( "<div class='block-container_"+val.rows+"-"+val.cols+"'>" );
+			parseBlock(val.blocks, items);
+			items.push( "</div>" );
+		}
+		else{
+			items.push( "<div class='block block_"+val.rows+"-"+val.cols+"' style=\"background-image: url('"+(path_imgs+val.image)+"')\")><a href='"+val.link+"'><p>"+val.caption+"</p></a></div>" );
+			//items.push( "<div class='block block_"+val.rows+"-"+val.cols+"' style=\"background: url('"+(path_imgs+val.image)+"'); background-size: cover\")><a href='"+val.link+"'><p>"+val.caption+"</p></a></div>" );
+		}
+	});
+}
+
+var jqxhr = $.getJSON( path+"grid.json")
+  .done(function(data) {
+	var items = [];
+	parseBlock(data, items);
+	/*$.each( data, function( key, val ) {
+		console.log(key+": "+val.rows);
+		if(val.blocks)
+			console.log(key+": "+val.blocks);
+		else
+			console.log("leaf block");
+		//items.push( "<div class='my-member'><div class='img-container'><img src='files/theme/"+val.image+"' alt='"+val.name+"'></div><div class='paragraph'><a href='"+val.link+"'>"+val.name+"</a><br>"+val.position+"</div></div>" );
+	});*/
+	$( "<div/>", {
+		html: items.join( "" )
+	}).appendTo( ".blocks-container" );
+  })
+  .fail(function() {
+    console.log( "error" );
+  })

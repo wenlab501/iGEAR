@@ -1,0 +1,32 @@
+var path = "files/theme/"
+
+var jqxhr = $.getJSON( path+"members.json")
+  .done(function(data) {
+	var items = [];
+	$.each( data, function( key, val ) {
+		items.push( "<div class='my-member'><div class='img-container'><img src='"+path+val.image+"' alt='"+val.name+"'></div><div class='paragraph'><a href='"+val.link+"'>"+val.name+"</a><br>"+val.position+"</div></div>" );
+	});
+	$( "<div/>", {
+		html: items.join( "" )
+	}).appendTo( ".my-member-container" );
+  })
+  .fail(function() {
+    console.log( "error" );
+  })
+  
+  jqxhr = $.getJSON( path+"former-members1.json")
+  .done(function(data) {
+	var items = [];
+	$.each( data, function( key, val ) {
+		//items.push( "<div class='my-former-member'><div class='paragraph'><a href='"+val.link+"'>"+val.name+"</a><br>"+val.notes+"</div></div>" );
+		items.push( "<div class='my-former-member'><div class='paragraph'><p>"+val.name+"</p>"+"</div></div>");
+		//items.push( "<div class='paragraph'><p>"+val.name+"</p>"+"</div>");
+
+	});
+	$( "<div/>", {
+		html: items.join( "" )
+	}).appendTo( ".my-former-member-container" );
+  })
+  .fail(function() {
+    console.log( "error" );
+  })
